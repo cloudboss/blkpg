@@ -1,7 +1,12 @@
 [package]
-name = "blkpg"
-version = "0.1.0"
+description = "A library to call Linux blkpg ioctls."
 edition = "2021"
+keywords = ["blkpg", "ioctl", "linux", "system"]
+license = "MIT"
+name = "blkpg"
+readme = "README.md"
+repository = "https://github.com/cloudboss/blkpg"
+version = "0.1.0"
 
 [dependencies]
 rustix = { default-features = false, version = "0.38.34", features = ["std"] }
