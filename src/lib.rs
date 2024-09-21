@@ -1,4 +1,4 @@
-//! A Rust library to call Linux blkpg ioctls.
+//! A library to call Linux blkpg ioctls.
 //!
 //! Note: only the `BLKPG_RESIZE_PARTITION` operation is implemented.
 
@@ -84,6 +84,24 @@ impl BlkpgPartition {
 /// * `start_sector`: The start sector of the partition.
 /// * `end_sector`: The end sector of the partition.
 /// * `sector_size`: The size of the sectors in bytes.
+///
+/// # Example
+///
+/// ```no_run
+/// use std::fs::File;
+/// use std::io::Error;
+///
+/// use blkpg::resize_partition;
+///
+/// fn main() -> Result<(), Error> {
+///     let f = File::options()
+///         .read(true)
+///         .write(true)
+///         .open("/dev/nvme0n1")?;
+///     resize_partition(&f, 2, 456, 789, 512)?;
+///     Ok(())
+/// }
+/// ```
 pub fn resize_partition<F: AsFd>(
     disk_fd: F,
     part_num: i32,
