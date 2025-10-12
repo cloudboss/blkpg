@@ -7,7 +7,7 @@ use std::ffi::{c_char, c_int, c_longlong, c_uchar, c_void};
 use rustix::{
     fd::AsFd,
     io,
-    ioctl::{ioctl, Direction, Ioctl, IoctlOutput, Opcode},
+    ioctl::{ioctl, opcode, Direction, Ioctl, IoctlOutput, Opcode},
 };
 
 const BLK_GROUP: c_uchar = 0x12;
@@ -41,7 +41,10 @@ unsafe impl Ioctl for BlkpgIoctlArg {
     type Output = ();
 
     const IS_MUTATING: bool = false;
-    const OPCODE: Opcode = Opcode::from_components(Direction::None, BLK_GROUP, BLKPG_NUM, 0);
+
+    fn opcode(&self) -> Opcode {
+        opcode::from_components(Direction::None, BLK_GROUP, BLKPG_NUM, 0)
+    }
 
     fn as_ptr(&mut self) -> *mut c_void {
         self as *mut Self as *mut c_void
